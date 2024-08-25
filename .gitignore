@@ -1,0 +1,61 @@
+# Node modules
+/node_modules/
+
+# Build output
+/dist/
+/build/
+/styles/main.css
+
+# Sass source maps
+/styles/*.map
+
+# Logs
+*.log
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm/
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variable files
+.env
+
+# Mac system files
+.DS_Store
+
+# Windows system files
+Thumbs.db
+
+# IDE and editor settings
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# JetBrains IDEs
+.idea/
+*.iml
+*.iws
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+
+# Package lock files
+package-lock.json
+yarn.lock
+
+# Coverage directory used by testing tools
+coverage/
+
+# Optional IDE settings
