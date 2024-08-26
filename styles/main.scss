@@ -7,6 +7,10 @@ body {
     padding: 0;
 }
 
+main {
+    padding: 0 16px;
+}
+
 .app {
     max-width: 600px;
     margin: 0 auto;
@@ -14,17 +18,14 @@ body {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.app__header {
-    margin-bottom: 20px;
 
     &__title {
         font-size: 20px;
         font-weight: 500;
         line-height: 30px;
         text-align: left;
-        margin: 0 0 20px 0;
+        display: flex;
+        align-items: center;
     }
 }
 
@@ -33,53 +34,40 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    margin: 0 16px;
 
     &__input {
         width: 100%;
-        max-width: 400px;
-        padding: 0 40px 0 20px;
         height: 40px;
-        border-radius: 20px;
+        border-radius: 10px;
         border: none;
         background-color: #EEEFF0;
         font-size: 16px;
+        padding-left: 48px;
+        vertical-align: middle;
+
+        &::placeholder {
+            color: #5B5C5E;
+        }
     }
 
     &__icon {
         position: absolute;
-        right: 20px;
-        font-size: 18px;
-        color: #6B6B6B;
+        left: 10px;
+        padding: 8px 20px 8px 8px;
     }
 }
 
-.button {
-    display: inline-block;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
+.add-button {
+    width: 100%;
+    border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
     text-align: center;
-
-    &--add {
-        background-color: #6B3C9B;
-        color: #ffffff;
-        width: 100%;
-        max-width: 400px;
-        margin-bottom: 20px;
-    }
-
-    &--save, &--delete {
-        background-color: #4caf50;
-        color: #ffffff;
-    }
-
-    &--cancel {
-        background-color: #f44336;
-        color: #ffffff;
-    }
+    background-color: #6B3C9B;
+    color: #ffffff;
+    padding: 10px 0;
+    margin: 20px 0;
 }
 
 .notes {
@@ -87,11 +75,10 @@ body {
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    padding-right: 10px;
 
     .note-card {
         padding: 10px;
-        margin: 10px;
+        margin: 0px 4px 10px 4px;
         border-radius: 8px;
         background-color: #ffffff;
         box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -180,5 +167,17 @@ body {
     &__actions {
         display: flex;
         justify-content: space-between;
+    }
+}
+
+.icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+
+    &--small {
+        width: 18px;
+        height: 18px;
     }
 }
