@@ -4,7 +4,6 @@
 # Build output
 /dist/
 /build/
-/styles/main.css
 
 # Sass source maps
 /styles/*.map

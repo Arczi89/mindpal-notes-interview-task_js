@@ -1,0 +1,192 @@
+@charset "UTF-8";
+/* main.scss */
+@font-face {
+  font-family: "InterItalic";
+  src: url("../assets/fonts/Inter-Italic-VariableFont_opsz,wght.ttf");
+}
+@font-face {
+  font-family: "Inter";
+  src: url("../assets/fonts/Inter-VariableFont_opsz,wght.ttf");
+}
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  padding: 0 16px;
+}
+
+.hidden {
+  display: none;
+}
+
+.app {
+  max-width: 376px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+.app__title {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 30px;
+  text-align: left;
+  display: flex;
+  align-items: center;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 16px;
+}
+.search-box__input {
+  width: 100%;
+  height: 40px;
+  border-radius: 10px;
+  border: none;
+  background-color: #EEEFF0;
+  font-size: 16px;
+  padding-left: 48px;
+  vertical-align: middle;
+}
+.search-box__input::placeholder {
+  color: #5B5C5E;
+}
+.search-box__icon {
+  position: absolute;
+  left: 10px;
+  padding: 8px 20px 8px 8px;
+}
+
+.add-button {
+  width: 100%;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  text-align: center;
+  background-color: #6B3C9B;
+  color: #ffffff;
+  padding: 10px 0;
+  margin: 20px 0;
+}
+
+.notes {
+  max-height: 50vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.notes .note-card,
+.notes .note-form { /* Używam tej samej stylizacji dla .note-card i .note-form */
+  padding: 10px;
+  margin: 0px 4px 10px 4px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 2px -2px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.notes .note-card__header,
+.notes .note-form__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.notes .note-card__title, .notes .note-card__content,
+.notes .note-form__title,
+.notes .note-form__content {
+  font-size: 14px;
+  margin: 0;
+  color: #333333;
+}
+.notes .note-card__date,
+.notes .note-form__date {
+  font-size: 12px;
+  color: #5B5C5E;
+  align-self: flex-start;
+}
+.notes .note-card__actions,
+.notes .note-form__actions {
+  display: flex;
+  gap: 4px;
+}
+.notes .note-form {
+  display: none;
+  padding: 10px;
+  margin: 0px 4px 10px 4px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 2px 2px 2px -2px rgba(0, 0, 0, 0.1);
+  flex-direction: column;
+  gap: 12px;
+}
+.notes .note-form__title, .notes .note-form__content {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333333;
+}
+.notes .note-form__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.notes .note-form__actions .button--save {
+  background-color: #6B3C9B;
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+.notes .note-form__actions .button--cancel {
+  background-color: #ddd;
+  color: #333333;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+}
+
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+.dialog__message {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+.dialog__actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+}
+.icon--small {
+  width: 18px;
+  height: 18px;
+}
