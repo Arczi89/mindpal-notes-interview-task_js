@@ -4,11 +4,28 @@ document.addEventListener("DOMContentLoaded", () => {
         const addNewNoteBtn = document.getElementById("add-new-note");
         const searchInput = document.getElementById("search-notes");
         const deleteModal = document.getElementById("delete-modal");
-        const cancelDeleteBtn = document.getElementById("cancel-delete");
         const confirmDeleteBtn = document.getElementById("confirm-delete");
+        const cancelDeleteBtn = document.getElementById("cancel-delete");
+        const noteFormContainer = document.getElementById("note-form-container");
+        const noteTitleInput = document.getElementById("note-title");
+        const noteContentInput = document.getElementById("note-content");
+        const saveNoteBtn = document.getElementById("save-note");
+        const cancelNoteBtn = document.getElementById("cancel-note");
 
-        let notes = [];
-        let noteToDelete = null;
+        let notes = [
+            {
+                title: "Sample Note 1",
+                content: "This is the first sample note.",
+                date: "Aug 25, 2024",
+            },
+            {
+                title: "Sample Note 2",
+                content: "This is the second sample note. It has more content to demonstrate the layout.",
+                date: "Aug 25, 2024",
+            }
+        ];
+
+        let noteToDeleteIndex = null;
 
         const renderNotes = () => {
             notesContainer.innerHTML = "";
@@ -24,67 +41,98 @@ document.addEventListener("DOMContentLoaded", () => {
             const noteCard = document.createElement("div");
             noteCard.className = "note-card";
             noteCard.innerHTML = `
-                <h2 class="note-card__title">${note.title}</h2>
-                <p class="note-card__content">${note.content}</p>
-                <div class="note-card__actions">
-                    <button class="note-card__edit-btn" data-index="${index}">Edit</button>
-                    <button class="note-card__delete-btn" data-index="${index}">Delete</button>
+                <div class="note-card__header">
+                    <h2 class="note-card__title">${note.title}</h2>
+                    <div class="note-card__actions">
+                        <a class="note-card__edit-btn icon inactive" data-index="${index}" title="Editing is disabled">
+                            <img src="/assets/icons/edit.png"/>
+                        </a>
+                        <a class="note-card__delete-btn icon" data-index="${index}">
+                            <img src="/assets/icons/trash.png"/>
+                        </a>
+                    </div>
                 </div>
+                <p class="note-card__content">${note.content}</p>
+                <p class="note-card__date">${note.date}</p>
             `;
             return noteCard;
         };
 
         const addEventListeners = () => {
-            document.querySelectorAll(".note-card__delete-btn").forEach(button => {
-                button.addEventListener("click", handleDeleteNote);
-            });
-
-            document.querySelectorAll(".note-card__edit-btn").forEach(button => {
-                button.addEventListener("click", handleEditNote);
+            document.querySelectorAll(".note-card__delete-btn").forEach(element => {
+                element.addEventListener("click", handleDeleteNoteClick);
             });
         };
 
-        const handleAddNewNote = () => {
-            const newNote = {
-                title: "New Note",
-                content: "Enter your note content here..."
-            };
-            notes.push(newNote);
-            renderNotes();
-        };
-
-        const handleDeleteNote = (e) => {
-            noteToDelete = parseInt(e.target.dataset.index);
+        const handleDeleteNoteClick = (e) => {
+            console.log(e);
+            noteToDeleteIndex = parseInt(e.target.closest("a").dataset.index);
             deleteModal.classList.remove("hidden");
         };
 
-        const handleEditNote = (e) => {
-            const noteIndex = parseInt(e.target.dataset.index);
-            const note = notes[noteIndex];
+        const handleDeleteNote = () => {
+            if (noteToDeleteIndex !== null) {
+                notes.splice(noteToDeleteIndex, 1);
+                noteToDeleteIndex = null;
+                deleteModal.classList.add("hidden");
+                renderNotes();
+            }
+        };
+
+        const handleCancelDelete = () => {
+            noteToDeleteIndex = null;
+            deleteModal.classList.add("hidden");
+        };
+
+        const handleAddNewNote = () => {
+            noteFormContainer.classList.remove("hidden");
+        };
+
+        const handleSaveNewNote = () => {
+            const title = noteTitleInput.value.trim();
+            const content = noteContentInput.value.trim();
+
+            if (title && content) {
+                const newNote = {
+                    title: title,
+                    content: content,
+                    date: new Date().toLocaleDateString(),
+                };
+
+                notes.unshift(newNote);
+                noteTitleInput.value = "";
+                noteContentInput.value = "";
+                noteFormContainer.classList.add("hidden");
+                renderNotes();
+            }
+        };
+
+        const handleCancelNewNote = () => {
+            noteTitleInput.value = "";
+            noteContentInput.value = "";
+            noteFormContainer.classList.add("hidden");
+        };
+
+        const handleSearchNotes = (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            notesContainer.innerHTML = "";
+            notes
+                .filter(note => note.title.toLowerCase().includes(searchTerm) || note.content.toLowerCase().includes(searchTerm))
+                .forEach((note, index) => {
+                    const noteCard = createNoteCard(note, index);
+                    notesContainer.appendChild(noteCard);
+                });
+
+            addEventListeners();
         };
 
         const init = () => {
             addNewNoteBtn.addEventListener("click", handleAddNewNote);
-            cancelDeleteBtn.addEventListener("click", () => deleteModal.classList.add("hidden"));
-            confirmDeleteBtn.addEventListener("click", () => {
-                if (noteToDelete !== null) {
-                    notes.splice(noteToDelete, 1);
-                    renderNotes();
-                    deleteModal.classList.add("hidden");
-                }
-            });
-
-            searchInput.addEventListener("input", (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                notesContainer.innerHTML = "";
-                notes
-                    .filter(note => note.title.toLowerCase().includes(searchTerm) || note.content.toLowerCase().includes(searchTerm))
-                    .forEach((note, index) => {
-                        const noteCard = createNoteCard(note, index);
-                        notesContainer.appendChild(noteCard);
-                    });
-            });
-
+            saveNoteBtn.addEventListener("click", handleSaveNewNote);
+            cancelNoteBtn.addEventListener("click", handleCancelNewNote);
+            searchInput.addEventListener("input", handleSearchNotes);
+            confirmDeleteBtn.addEventListener("click", handleDeleteNote);
+            cancelDeleteBtn.addEventListener("click", handleCancelDelete);
             renderNotes();
         };
 
