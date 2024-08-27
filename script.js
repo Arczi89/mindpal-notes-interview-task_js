@@ -45,10 +45,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h2 class="note-card__title">${note.title}</h2>
                     <div class="note-card__actions">
                         <a class="note-card__edit-btn icon inactive" data-index="${index}" title="Editing is disabled">
-                            <img src="/assets/icons/edit.png"/>
+                            <img src="./assets/icons/edit.png"/>
                         </a>
                         <a class="note-card__delete-btn icon" data-index="${index}">
-                            <img src="/assets/icons/trash.png"/>
+                            <img src="./assets/icons/trash.png"/>
                         </a>
                     </div>
                 </div>
