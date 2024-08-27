@@ -14,15 +14,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let notes = [
             {
-                title: "Sample Note 1",
-                content: "This is the first sample note.",
-                date: "Aug 25, 2024",
+                title: "Note title",
+                content: "Note body",
+                date: "May 22",
             },
             {
-                title: "Sample Note 2",
-                content: "This is the second sample note. It has more content to demonstrate the layout.",
-                date: "Aug 25, 2024",
-            }
+                title: "Note title",
+                content: "Very long Note Body to give you an example on how the box should act",
+                date: "May 22",
+            },
         ];
 
         let noteToDeleteIndex = null;

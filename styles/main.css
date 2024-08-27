@@ -1,4 +1,3 @@
-@charset "UTF-8";
 /* main.scss */
 @font-face {
   font-family: "InterItalic";
@@ -11,7 +10,7 @@
 body {
   font-family: "Inter", sans-serif;
   background-color: #f5f5f5;
-  margin: 0;
+  margin: 10vh;
   padding: 0;
 }
 
@@ -85,8 +84,7 @@ main {
   display: flex;
   flex-direction: column;
 }
-.notes .note-card,
-.notes .note-form { /* Używam tej samej stylizacji dla .note-card i .note-form */
+.notes .note-card {
   padding: 10px;
   margin: 0px 4px 10px 4px;
   border-radius: 8px;
@@ -96,32 +94,27 @@ main {
   flex-direction: column;
   gap: 12px;
 }
-.notes .note-card__header,
-.notes .note-form__header {
+.notes .note-card__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.notes .note-card__title, .notes .note-card__content,
-.notes .note-form__title,
-.notes .note-form__content {
+.notes .note-card__title, .notes .note-card__content {
   font-size: 14px;
   margin: 0;
   color: #333333;
 }
-.notes .note-card__date,
-.notes .note-form__date {
+.notes .note-card__date {
   font-size: 12px;
   color: #5B5C5E;
   align-self: flex-start;
 }
-.notes .note-card__actions,
-.notes .note-form__actions {
+.notes .note-card__actions {
   display: flex;
   gap: 4px;
 }
-.notes .note-form {
-  display: none;
+
+.note-form {
   padding: 10px;
   margin: 0px 4px 10px 4px;
   border-radius: 8px;
@@ -130,7 +123,7 @@ main {
   flex-direction: column;
   gap: 12px;
 }
-.notes .note-form__title, .notes .note-form__content {
+.note-form__title, .note-form__content {
   width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
@@ -138,12 +131,12 @@ main {
   font-size: 14px;
   color: #333333;
 }
-.notes .note-form__actions {
+.note-form__actions {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
 }
-.notes .note-form__actions .button--save {
+.note-form__actions .button--save {
   background-color: #6B3C9B;
   color: #ffffff;
   padding: 8px 16px;
@@ -151,7 +144,7 @@ main {
   border: none;
   cursor: pointer;
 }
-.notes .note-form__actions .button--cancel {
+.note-form__actions .button--cancel {
   background-color: #ddd;
   color: #333333;
   padding: 8px 16px;
@@ -161,6 +154,7 @@ main {
 }
 
 .dialog {
+  display: none;
   position: fixed;
   top: 50%;
   left: 50%;
