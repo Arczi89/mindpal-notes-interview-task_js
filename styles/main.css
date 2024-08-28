@@ -42,6 +42,9 @@ textarea {
   margin-left: 10px;
   padding-top: 20px;
 }
+.app__title .icon {
+  margin-right: 10px;
+}
 
 .search-box {
   position: relative;
@@ -214,7 +217,6 @@ textarea {
   vertical-align: middle;
   width: 30px;
   height: 30px;
-  margin-right: 10px;
 }
 .icon--small {
   width: 18px;

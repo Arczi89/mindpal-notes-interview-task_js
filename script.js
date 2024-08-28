@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const noteContentInput = document.getElementById("note-content");
         const saveNoteBtn = document.getElementById("save-note");
         const cancelNoteBtn = document.getElementById("cancel-note");
+        const noteFormTitle = document.querySelector(".note-form__card-title div");
 
         let notes = [
             {
@@ -26,6 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
         ];
 
         let noteToDeleteIndex = null;
+        let noteToEditIndex = null;
 
         const renderNotes = () => {
             notesContainer.innerHTML = "";
@@ -44,11 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 <div class="note-card__header">
                     <h2 class="note-card__title">${note.title}</h2>
                     <div class="note-card__actions">
-                        <a class="note-card__edit-btn icon inactive" data-index="${index}" title="Editing is disabled">
-                            <img src="./assets/icons/edit.png"/>
+                        <a class="note-card__edit-btn icon" data-index="${index}">
+                            <img src="./assets/icons/edit.png" title="Edit"/>
                         </a>
                         <a class="note-card__delete-btn icon" data-index="${index}">
-                            <img src="./assets/icons/trash.png"/>
+                            <img src="./assets/icons/trash.png" title="Delete"/>
                         </a>
                     </div>
                 </div>
@@ -61,6 +63,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const addEventListeners = () => {
             document.querySelectorAll(".note-card__delete-btn").forEach(element => {
                 element.addEventListener("click", handleDeleteNoteClick);
+            });
+
+            document.querySelectorAll(".note-card__edit-btn").forEach(element => {
+                element.addEventListener("click", handleEditNoteClick);
             });
         };
 
@@ -84,6 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         const handleAddNewNote = () => {
+            noteFormTitle.textContent = "Add new note";
+            saveNoteBtn.textContent = "Add";
+            noteToEditIndex = null;
+            noteTitleInput.value = "";
+            noteContentInput.value = "";
             noteFormContainer.classList.remove("hidden");
             addNewNoteBtn.classList.add("hidden");
         };
@@ -93,13 +104,19 @@ document.addEventListener("DOMContentLoaded", () => {
             const content = noteContentInput.value.trim();
 
             if (title && content) {
-                const newNote = {
-                    title: title,
-                    content: content,
-                    date: new Date().toLocaleDateString(),
-                };
+                if (noteToEditIndex !== null) {
+                    notes[noteToEditIndex].title = title;
+                    notes[noteToEditIndex].content = content;
+                    notes[noteToEditIndex].date = new Date().toLocaleDateString();
+                } else {
+                    const newNote = {
+                        title: title,
+                        content: content,
+                        date: new Date().toLocaleDateString(),
+                    };
+                    notes.unshift(newNote);
+                }
 
-                notes.unshift(newNote);
                 noteTitleInput.value = "";
                 noteContentInput.value = "";
                 noteFormContainer.classList.add("hidden");
@@ -113,6 +130,18 @@ document.addEventListener("DOMContentLoaded", () => {
             noteContentInput.value = "";
             noteFormContainer.classList.add("hidden");
             addNewNoteBtn.classList.remove("hidden");
+            noteToEditIndex = null;
+        };
+
+        const handleEditNoteClick = (e) => {
+            noteToEditIndex = parseInt(e.target.closest("a").dataset.index);
+            const note = notes[noteToEditIndex];
+            noteFormTitle.textContent = "Modify note";
+            saveNoteBtn.textContent = "Save";
+            noteTitleInput.value = note.title;
+            noteContentInput.value = note.content;
+            noteFormContainer.classList.remove("hidden");
+            addNewNoteBtn.classList.add("hidden");
         };
 
         const handleSearchNotes = (e) => {
