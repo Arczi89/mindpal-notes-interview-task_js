@@ -82,6 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 noteToDeleteIndex = null;
                 hideDeleteDialog();
                 elements.searchInput.disabled = false;
+                elements.addNewNoteBtn.disabled = false;
                 renderNotes();
             }
         };
