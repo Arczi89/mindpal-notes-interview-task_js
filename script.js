@@ -188,7 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
             elements.noteTitleInput.value = "";
             elements.noteContentInput.value = "";
             elements.noteFormContainer.classList.add("hidden");
-            elements.addNewNoteBtn.classList.remove("hidden");
+            elements.addNewNoteBtn.disabled = false;
             elements.searchInput.disabled = false;
             document.querySelectorAll(".note-card__edit-btn").forEach(btn => btn.classList.remove('hidden'));
         };
