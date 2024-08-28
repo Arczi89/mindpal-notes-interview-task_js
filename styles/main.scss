@@ -144,35 +144,32 @@ main {
         font-size: 14px;
         color: #333333;
     }
-
-    &__actions {
-        display: flex;
+    &__content {
+        height: 210px;
+        max-height: 210px;
+    }
+    .button--add {
+        background-color: #6B3C9B;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 12px;
+        border: none;
+        cursor: pointer;
         justify-content: flex-end;
-        gap: 10px;
-
-        .button--save {
-            background-color: #6B3C9B;
-            color: #ffffff;
-            padding: 8px 16px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-        }
-
-        .button--cancel {
-            background-color: #ddd;
-            color: #333333;
-            padding: 8px 16px;
-            border-radius: 4px;
-            border: none;
-            cursor: pointer;
-        }
+    }
+    .button--cancel {
+        background-color: white;
+        color: #0F75B8;
+        padding: 8px 16px;
+        border-radius: 4px;
+        border: none;
+        cursor: pointer;
+        justify-content: flex-end;
     }
 }
 
 
 .dialog {
-    display: none;
     position: fixed;
     top: 50%;
     left: 50%;
