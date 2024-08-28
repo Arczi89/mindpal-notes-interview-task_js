@@ -29,7 +29,8 @@ textarea {
 }
 
 .app {
-    max-width: 376px;
+    width: 376px;
+    height: 748px;
     margin: 0 auto;
     background-color: #ffffff;
     border-radius: 8px;
@@ -285,9 +286,74 @@ textarea {
     vertical-align: middle;
     width: 30px;
     height: 30px;
+    text-align: end;
 
     &--small {
         width: 18px;
         height: 18px;
+    }
+}
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+
+    &__icon-container {
+        width: 48px;
+        height: 48px;
+        background-color: #000;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 80px;
+    }
+
+    &__icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    &__text {
+        font-size: 20px;
+        font-weight: 500;
+        color: #000;
+        margin-top: 16px;
+    }
+
+    &__subtext {
+        font-size: 16px;
+        color: #1B1C1E;
+    }
+
+    &__button {
+        background-color: #fff;
+        color: #1B1C1E;
+        padding: 10px 20px;
+        border-radius: 8px;
+        border: 1px solid #1B1C1E;
+        display: flex;
+        align-items: center;
+        font-weight: 500;
+        cursor: pointer;
+        margin-top: 30px;
+
+        &:hover {
+            background-color: #f0f0f0;
+        }
+
+        &-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+    }
+
+    &.hidden {
+        display: none;
     }
 }

@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const noteContentInput = document.getElementById("note-content");
         const saveNoteBtn = document.getElementById("save-note");
         const cancelNoteBtn = document.getElementById("cancel-note");
+        const addNewNoteEmptyState = document.getElementById("add-note-empty-state");
 
         let notes = [
             {
@@ -30,11 +31,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const renderNotes = () => {
             notesContainer.innerHTML = "";
-            notes.forEach((note, index) => {
-                const noteCard = createNoteCard(note, index);
-                notesContainer.appendChild(noteCard);
-            });
-
+        
+            if (notes.length === 0) {
+                showEmptyState();
+            } else {
+                hideEmptyState();
+                notes.forEach((note, index) => {
+                    const noteCard = createNoteCard(note, index);
+                    notesContainer.appendChild(noteCard);
+                });
+            }
+        
             addEventListeners();
         };
 
@@ -57,6 +64,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p class="note-card__date">${note.date}</p>
             `;
             return noteCard;
+        };
+
+        const showEmptyState = () => {
+            document.getElementById("empty-state").classList.remove("hidden");
+            addNewNoteBtn.classList.add("hidden");
+        };
+        
+        const hideEmptyState = () => {
+            document.getElementById("empty-state").classList.add("hidden");
+            addNewNoteBtn.classList.remove("hidden");
         };
 
         const addEventListeners = () => {
@@ -89,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         const handleAddNewNote = () => {
+            hideEmptyState();
             notesContainer.insertBefore(noteFormContainer, notesContainer.firstChild);
             noteFormContainer.classList.remove("hidden");
             addNewNoteBtn.classList.add("hidden");
@@ -96,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
             saveNoteBtn.textContent = "Add";
             document.querySelector(".note-form__card-title div").textContent = "Add new note";
         };
-
+     
         const handleEditNoteClick = (e) => {
             noteToEditIndex = parseInt(e.target.closest("a").dataset.index);
             const note = notes[noteToEditIndex];
@@ -163,6 +181,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             document.querySelectorAll(".note-card__edit-btn").forEach(btn => btn.classList.remove("disabled"));
+
+            if (notes.length === 0) {
+                showEmptyState();
+            }
         };
 
         const handleSearchNotes = (e) => {
@@ -180,6 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const init = () => {
             addNewNoteBtn.addEventListener("click", handleAddNewNote);
+            addNewNoteEmptyState.addEventListener("click", handleAddNewNote);
             saveNoteBtn.addEventListener("click", handleSaveNewNote);
             cancelNoteBtn.addEventListener("click", handleCancelNewNote);
             searchInput.addEventListener("input", handleSearchNotes);
