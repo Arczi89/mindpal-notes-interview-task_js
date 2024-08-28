@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const noteContentInput = document.getElementById("note-content");
         const saveNoteBtn = document.getElementById("save-note");
         const cancelNoteBtn = document.getElementById("cancel-note");
-        const noteFormTitle = document.querySelector(".note-form__card-title div");
 
         let notes = [
             {
@@ -47,10 +46,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h2 class="note-card__title">${note.title}</h2>
                     <div class="note-card__actions">
                         <a class="note-card__edit-btn icon" data-index="${index}">
-                            <img src="./assets/icons/edit.png" title="Edit"/>
+                            <img src="./assets/icons/edit.png"/>
                         </a>
                         <a class="note-card__delete-btn icon" data-index="${index}">
-                            <img src="./assets/icons/trash.png" title="Delete"/>
+                            <img src="./assets/icons/trash.png"/>
                         </a>
                     </div>
                 </div>
@@ -90,13 +89,36 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         const handleAddNewNote = () => {
-            noteFormTitle.textContent = "Add new note";
-            saveNoteBtn.textContent = "Add";
-            noteToEditIndex = null;
-            noteTitleInput.value = "";
-            noteContentInput.value = "";
+            notesContainer.insertBefore(noteFormContainer, notesContainer.firstChild);
             noteFormContainer.classList.remove("hidden");
             addNewNoteBtn.classList.add("hidden");
+            noteToEditIndex = null;
+            saveNoteBtn.textContent = "Add";
+            document.querySelector(".note-form__card-title div").textContent = "Add new note";
+        };
+
+        const handleEditNoteClick = (e) => {
+            noteToEditIndex = parseInt(e.target.closest("a").dataset.index);
+            const note = notes[noteToEditIndex];
+
+            noteTitleInput.value = note.title;
+            noteContentInput.value = note.content;
+
+            const noteCard = e.target.closest(".note-card");
+            noteCard.parentNode.insertBefore(noteFormContainer, noteCard.nextSibling);
+
+            noteFormContainer.classList.remove("hidden");
+            saveNoteBtn.scrollIntoView({ behavior: "smooth" });
+            saveNoteBtn.textContent = "Save";
+            document.querySelector(".note-form__card-title div").textContent = "Modify note";
+
+            noteCard.style.display = "none";
+
+            document.querySelectorAll(".note-card__edit-btn").forEach((btn, index) => {
+                if (index !== noteToEditIndex) {
+                    btn.classList.add("disabled");
+                }
+            });
         };
 
         const handleSaveNewNote = () => {
@@ -104,16 +126,16 @@ document.addEventListener("DOMContentLoaded", () => {
             const content = noteContentInput.value.trim();
 
             if (title && content) {
+                const newNote = {
+                    title: title,
+                    content: content,
+                    date: new Date().toLocaleDateString(),
+                };
+
                 if (noteToEditIndex !== null) {
-                    notes[noteToEditIndex].title = title;
-                    notes[noteToEditIndex].content = content;
-                    notes[noteToEditIndex].date = new Date().toLocaleDateString();
+                    notes[noteToEditIndex] = newNote;
+                    noteToEditIndex = null;
                 } else {
-                    const newNote = {
-                        title: title,
-                        content: content,
-                        date: new Date().toLocaleDateString(),
-                    };
                     notes.unshift(newNote);
                 }
 
@@ -121,6 +143,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 noteContentInput.value = "";
                 noteFormContainer.classList.add("hidden");
                 addNewNoteBtn.classList.remove("hidden");
+
+                document.querySelectorAll(".note-card__edit-btn").forEach(btn => btn.classList.remove("disabled"));
+
                 renderNotes();
             }
         };
@@ -130,18 +155,14 @@ document.addEventListener("DOMContentLoaded", () => {
             noteContentInput.value = "";
             noteFormContainer.classList.add("hidden");
             addNewNoteBtn.classList.remove("hidden");
-            noteToEditIndex = null;
-        };
 
-        const handleEditNoteClick = (e) => {
-            noteToEditIndex = parseInt(e.target.closest("a").dataset.index);
-            const note = notes[noteToEditIndex];
-            noteFormTitle.textContent = "Modify note";
-            saveNoteBtn.textContent = "Save";
-            noteTitleInput.value = note.title;
-            noteContentInput.value = note.content;
-            noteFormContainer.classList.remove("hidden");
-            addNewNoteBtn.classList.add("hidden");
+            if (noteToEditIndex !== null) {
+                const noteCard = document.querySelectorAll(".note-card")[noteToEditIndex];
+                noteCard.style.display = "flex";
+                noteToEditIndex = null;
+            }
+
+            document.querySelectorAll(".note-card__edit-btn").forEach(btn => btn.classList.remove("disabled"));
         };
 
         const handleSearchNotes = (e) => {
