@@ -256,6 +256,9 @@ textarea {
   height: 30px;
   text-align: end;
 }
+.icon.hidden {
+  border: 1px red dotted;
+}
 .icon--small {
   width: 18px;
   height: 18px;

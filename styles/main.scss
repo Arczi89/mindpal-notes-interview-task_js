@@ -288,6 +288,10 @@ textarea {
     height: 30px;
     text-align: end;
 
+    &.hidden {
+        display: none;
+    }
+
     &--small {
         width: 18px;
         height: 18px;

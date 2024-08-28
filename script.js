@@ -1,48 +1,41 @@
 document.addEventListener("DOMContentLoaded", () => {
     const app = (() => {
-        const notesContainer = document.getElementById("notes-container");
-        const addNewNoteBtn = document.getElementById("add-new-note");
-        const searchInput = document.getElementById("search-notes");
-        const deleteDialog = document.getElementById("delete-dialog");
-        const confirmDeleteBtn = document.getElementById("confirm-delete");
-        const cancelDeleteBtn = document.getElementById("cancel-delete");
-        const noteFormContainer = document.getElementById("note-form-container");
-        const noteTitleInput = document.getElementById("note-title");
-        const noteContentInput = document.getElementById("note-content");
-        const saveNoteBtn = document.getElementById("save-note");
-        const cancelNoteBtn = document.getElementById("cancel-note");
-        const addNewNoteEmptyState = document.getElementById("add-note-empty-state");
-        const overlay = document.getElementById("overlay");
+        const elements = {
+            notesContainer: document.getElementById("notes-container"),
+            addNewNoteBtn: document.getElementById("add-new-note"),
+            searchInput: document.getElementById("search-notes"),
+            deleteDialog: document.getElementById("delete-dialog"),
+            confirmDeleteBtn: document.getElementById("confirm-delete"),
+            cancelDeleteBtn: document.getElementById("cancel-delete"),
+            noteFormContainer: document.getElementById("note-form-container"),
+            noteTitleInput: document.getElementById("note-title"),
+            noteContentInput: document.getElementById("note-content"),
+            saveNoteBtn: document.getElementById("save-note"),
+            cancelNoteBtn: document.getElementById("cancel-note"),
+            addNewNoteEmptyState: document.getElementById("add-note-empty-state"),
+            overlay: document.getElementById("overlay"),
+            emptyState: document.getElementById("empty-state")
+        };
 
         let notes = [
-            {
-                title: "Note title",
-                content: "Note body",
-                date: "May 22",
-            },
-            {
-                title: "Note title 2",
-                content: "Very long Note Body to give you an example on how the box should act",
-                date: "May 22",
-            },
+            { title: "Note title", content: "Note body", date: "May 22" },
+            { title: "Note title 2", content: "Very long Note Body to give you an example on how the box should act", date: "May 22" }
         ];
 
         let noteToDeleteIndex = null;
         let noteToEditIndex = null;
 
         const renderNotes = () => {
-            notesContainer.innerHTML = "";
-
+            elements.notesContainer.innerHTML = "";
             if (notes.length === 0) {
                 showEmptyState();
             } else {
                 hideEmptyState();
                 notes.forEach((note, index) => {
                     const noteCard = createNoteCard(note, index);
-                    notesContainer.appendChild(noteCard);
+                    elements.notesContainer.appendChild(noteCard);
                 });
             }
-
             addEventListeners();
         };
 
@@ -68,92 +61,93 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         const showEmptyState = () => {
-            document.getElementById("empty-state").classList.remove("hidden");
-            addNewNoteBtn.classList.add("hidden");
+            elements.emptyState.classList.remove("hidden");
+            elements.addNewNoteBtn.classList.add("hidden");
         };
 
         const hideEmptyState = () => {
-            document.getElementById("empty-state").classList.add("hidden");
-            addNewNoteBtn.classList.remove("hidden");
+            elements.emptyState.classList.add("hidden");
+            elements.addNewNoteBtn.classList.remove("hidden");
         };
 
         const addEventListeners = () => {
-            document.querySelectorAll(".note-card__delete-btn").forEach(element => {
-                element.addEventListener("click", handleDeleteNoteClick);
-            });
-
-            document.querySelectorAll(".note-card__edit-btn").forEach(element => {
-                element.addEventListener("click", handleEditNoteClick);
-            });
+            document.querySelectorAll(".note-card__delete-btn").forEach(element => 
+                element.addEventListener("click", handleDeleteNoteClick)
+            );
+            document.querySelectorAll(".note-card__edit-btn").forEach(element => 
+                element.addEventListener("click", handleEditNoteClick)
+            );
         };
 
         const handleDeleteNoteClick = e => {
             noteToDeleteIndex = parseInt(e.target.closest("a").dataset.index);
-            deleteDialog.classList.remove("hidden");
-            overlay.classList.remove("hidden");
+            elements.deleteDialog.classList.remove("hidden");
+            elements.overlay.classList.remove("hidden");
         };
 
         const handleDeleteNote = () => {
             if (noteToDeleteIndex !== null) {
                 notes.splice(noteToDeleteIndex, 1);
                 noteToDeleteIndex = null;
-                deleteDialog.classList.add("hidden");
-                overlay.classList.add("hidden");
+                elements.deleteDialog.classList.add("hidden");
+                elements.overlay.classList.add("hidden");
+                elements.searchInput.classList.remove("hidden");
                 renderNotes();
             }
         };
 
         const handleCancelDelete = () => {
             noteToDeleteIndex = null;
-            deleteDialog.classList.add("hidden");
-            overlay.classList.add("hidden");
+            elements.deleteDialog.classList.add("hidden");
+            elements.overlay.classList.add("hidden");
         };
 
         const handleAddNewNote = () => {
-            searchInput.disabled = true;
+            elements.searchInput.disabled = true;
             hideEmptyState();
-            notesContainer.insertBefore(noteFormContainer, notesContainer.firstChild);
-            noteFormContainer.classList.remove("hidden");
-            addNewNoteBtn.classList.add("hidden");
+            elements.notesContainer.insertBefore(elements.noteFormContainer, elements.notesContainer.firstChild);
+            elements.noteFormContainer.classList.remove("hidden");
+            elements.addNewNoteBtn.classList.add("hidden");
+            document.querySelectorAll(".note-card__edit-btn").forEach((btn) => btn.classList.add('hidden'));
             noteToEditIndex = null;
-            saveNoteBtn.textContent = "Add";
+            elements.saveNoteBtn.textContent = "Add";
             document.querySelector(".note-form__card-title div").textContent = "Add new note";
         };
 
         const handleEditNoteClick = e => {
-            searchInput.disabled = true;
+            elements.searchInput.disabled = true;
+            elements.addNewNoteBtn.disabled = true;
             noteToEditIndex = parseInt(e.target.closest("a").dataset.index);
             const note = notes[noteToEditIndex];
 
-            noteTitleInput.value = note.title;
-            noteContentInput.value = note.content;
+            elements.noteTitleInput.value = note.title;
+            elements.noteContentInput.value = note.content;
 
             const noteCard = e.target.closest(".note-card");
-            noteCard.parentNode.insertBefore(noteFormContainer, noteCard.nextSibling);
+            noteCard.parentNode.insertBefore(elements.noteFormContainer, noteCard.nextSibling);
 
-            noteFormContainer.classList.remove("hidden");
-            saveNoteBtn.scrollIntoView({ behavior: "smooth", block: "start" });
-            saveNoteBtn.textContent = "Save";
+            elements.noteFormContainer.classList.remove("hidden");
+            elements.saveNoteBtn.scrollIntoView({ behavior: "smooth", block: "start" });
+            elements.saveNoteBtn.textContent = "Save";
             document.querySelector(".note-form__card-title div").textContent = "Modify note";
 
             noteCard.style.display = "none";
-
             document.querySelectorAll(".note-card__edit-btn").forEach((btn, index) => {
                 if (index !== noteToEditIndex) {
-                    btn.classList.add("disabled");
+                    btn.classList.add('hidden');
                 }
             });
         };
 
         const handleSaveNewNote = () => {
-            const title = noteTitleInput.value.trim();
-            const content = noteContentInput.value.trim();
+            const title = elements.noteTitleInput.value.trim();
+            const content = elements.noteContentInput.value.trim();
 
             if (title && content) {
                 const newNote = {
                     title,
                     content,
-                    date: new Date().toLocaleDateString(),
+                    date: new Date().toLocaleDateString()
                 };
 
                 if (noteToEditIndex !== null) {
@@ -163,24 +157,24 @@ document.addEventListener("DOMContentLoaded", () => {
                     notes.unshift(newNote);
                 }
 
-                noteTitleInput.value = "";
-                noteContentInput.value = "";
-                noteFormContainer.classList.add("hidden");
-                addNewNoteBtn.classList.remove("hidden");
-
-                document.querySelectorAll(".note-card__edit-btn").forEach(btn => btn.classList.remove("disabled"));
-
-                searchInput.disabled = false;
+                elements.noteTitleInput.value = "";
+                elements.noteContentInput.value = "";
+                elements.noteFormContainer.classList.add("hidden");
+                elements.addNewNoteBtn.classList.remove("hidden");
+                document.querySelectorAll(".note-card__edit-btn").forEach(btn => btn.classList.remove('hidden'));
+                elements.searchInput.disabled = false;
+                elements.addNewNoteBtn.disabled = false;
                 renderNotes();
             }
         };
 
         const handleCancelNewNote = () => {
-            searchInput.disabled = false;
-            noteTitleInput.value = "";
-            noteContentInput.value = "";
-            noteFormContainer.classList.add("hidden");
-            addNewNoteBtn.classList.remove("hidden");
+            elements.searchInput.disabled = false;
+            elements.addNewNoteBtn.disabled = false;
+            elements.noteTitleInput.value = "";
+            elements.noteContentInput.value = "";
+            elements.noteFormContainer.classList.add("hidden");
+            elements.addNewNoteBtn.classList.remove("hidden");
 
             if (noteToEditIndex !== null) {
                 const noteCard = document.querySelectorAll(".note-card")[noteToEditIndex];
@@ -188,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 noteToEditIndex = null;
             }
 
-            document.querySelectorAll(".note-card__edit-btn").forEach(btn => btn.classList.remove("disabled"));
+            document.querySelectorAll(".note-card__edit-btn").forEach(btn => btn.classList.remove('hidden'));
 
             if (notes.length === 0) {
                 showEmptyState();
@@ -201,27 +195,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
             noteCards.forEach(noteCard => {
                 const title = noteCard.querySelector(".note-card__title").textContent.toLowerCase();
-
                 noteCard.style.display = title.includes(searchTerm) ? "flex" : "none";
             });
 
             const visibleNotes = Array.from(noteCards).some(noteCard => noteCard.style.display !== "none");
-
-            if (!visibleNotes) {
-                showEmptyState();
-            } else {
-                hideEmptyState();
-            }
+            !visibleNotes ? showEmptyState() : hideEmptyState();
+           
         };
 
         const init = () => {
-            addNewNoteBtn.addEventListener("click", handleAddNewNote);
-            addNewNoteEmptyState.addEventListener("click", handleAddNewNote);
-            saveNoteBtn.addEventListener("click", handleSaveNewNote);
-            cancelNoteBtn.addEventListener("click", handleCancelNewNote);
-            searchInput.addEventListener("input", handleSearchNotes);
-            confirmDeleteBtn.addEventListener("click", handleDeleteNote);
-            cancelDeleteBtn.addEventListener("click", handleCancelDelete);
+            elements.addNewNoteBtn.addEventListener("click", handleAddNewNote);
+            elements.addNewNoteEmptyState.addEventListener("click", handleAddNewNote);
+            elements.saveNoteBtn.addEventListener("click", handleSaveNewNote);
+            elements.cancelNoteBtn.addEventListener("click", handleCancelNewNote);
+            elements.searchInput.addEventListener("input", handleSearchNotes);
+            elements.confirmDeleteBtn.addEventListener("click", handleDeleteNote);
+            elements.cancelDeleteBtn.addEventListener("click", handleCancelDelete);
             renderNotes();
         };
 
