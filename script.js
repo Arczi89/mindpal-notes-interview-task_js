@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 date: "May 22",
             },
             {
-                title: "Note title",
+                title: "Note title 2",
                 content: "Very long Note Body to give you an example on how the box should act",
                 date: "May 22",
             },
@@ -189,16 +189,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const handleSearchNotes = (e) => {
             const searchTerm = e.target.value.toLowerCase();
-            notesContainer.innerHTML = "";
-            notes
-                .filter(note => note.title.toLowerCase().includes(searchTerm) || note.content.toLowerCase().includes(searchTerm))
-                .forEach((note, index) => {
-                    const noteCard = createNoteCard(note, index);
-                    notesContainer.appendChild(noteCard);
-                });
-
-            addEventListeners();
+            const noteCards = document.querySelectorAll(".note-card");
+            
+            noteCards.forEach(noteCard => {
+                const title = noteCard.querySelector(".note-card__title").textContent.toLowerCase();
+                
+                if (title.includes(searchTerm)) {
+                    noteCard.style.display = "flex";
+                } else {
+                    noteCard.style.display = "none";
+                }
+            });
+        
+            const visibleNotes = Array.from(noteCards).some(noteCard => noteCard.style.display !== "none");
+        
+            if (!visibleNotes) {
+                showEmptyState();
+            } else {
+                hideEmptyState();
+            }
         };
+        
 
         const init = () => {
             addNewNoteBtn.addEventListener("click", handleAddNewNote);
