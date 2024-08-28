@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const app = (function () {
+    const app = (() => {
         const notesContainer = document.getElementById("notes-container");
         const addNewNoteBtn = document.getElementById("add-new-note");
         const searchInput = document.getElementById("search-notes");
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const renderNotes = () => {
             notesContainer.innerHTML = "";
-        
+
             if (notes.length === 0) {
                 showEmptyState();
             } else {
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     notesContainer.appendChild(noteCard);
                 });
             }
-        
+
             addEventListeners();
         };
 
@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("empty-state").classList.remove("hidden");
             addNewNoteBtn.classList.add("hidden");
         };
-        
+
         const hideEmptyState = () => {
             document.getElementById("empty-state").classList.add("hidden");
             addNewNoteBtn.classList.remove("hidden");
@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         };
 
-        const handleDeleteNoteClick = (e) => {
+        const handleDeleteNoteClick = e => {
             noteToDeleteIndex = parseInt(e.target.closest("a").dataset.index);
             deleteDialog.classList.remove("hidden");
             overlay.classList.remove("hidden");
@@ -110,6 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         const handleAddNewNote = () => {
+            searchInput.disabled = true;
             hideEmptyState();
             notesContainer.insertBefore(noteFormContainer, notesContainer.firstChild);
             noteFormContainer.classList.remove("hidden");
@@ -118,8 +119,9 @@ document.addEventListener("DOMContentLoaded", () => {
             saveNoteBtn.textContent = "Add";
             document.querySelector(".note-form__card-title div").textContent = "Add new note";
         };
-     
-        const handleEditNoteClick = (e) => {
+
+        const handleEditNoteClick = e => {
+            searchInput.disabled = true;
             noteToEditIndex = parseInt(e.target.closest("a").dataset.index);
             const note = notes[noteToEditIndex];
 
@@ -149,8 +151,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
             if (title && content) {
                 const newNote = {
-                    title: title,
-                    content: content,
+                    title,
+                    content,
                     date: new Date().toLocaleDateString(),
                 };
 
@@ -168,11 +170,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 document.querySelectorAll(".note-card__edit-btn").forEach(btn => btn.classList.remove("disabled"));
 
+                searchInput.disabled = false;
                 renderNotes();
             }
         };
 
         const handleCancelNewNote = () => {
+            searchInput.disabled = false;
             noteTitleInput.value = "";
             noteContentInput.value = "";
             noteFormContainer.classList.add("hidden");
@@ -191,29 +195,24 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
 
-        const handleSearchNotes = (e) => {
+        const handleSearchNotes = e => {
             const searchTerm = e.target.value.toLowerCase();
             const noteCards = document.querySelectorAll(".note-card");
-            
+
             noteCards.forEach(noteCard => {
                 const title = noteCard.querySelector(".note-card__title").textContent.toLowerCase();
-                
-                if (title.includes(searchTerm)) {
-                    noteCard.style.display = "flex";
-                } else {
-                    noteCard.style.display = "none";
-                }
+
+                noteCard.style.display = title.includes(searchTerm) ? "flex" : "none";
             });
-        
+
             const visibleNotes = Array.from(noteCards).some(noteCard => noteCard.style.display !== "none");
-        
+
             if (!visibleNotes) {
                 showEmptyState();
             } else {
                 hideEmptyState();
             }
         };
-        
 
         const init = () => {
             addNewNoteBtn.addEventListener("click", handleAddNewNote);
@@ -226,9 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
             renderNotes();
         };
 
-        return {
-            init
-        };
+        return { init };
     })();
 
     app.init();
