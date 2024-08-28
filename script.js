@@ -25,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
         let noteToDeleteIndex = null;
         let noteToEditIndex = null;
 
-        // render section
         const renderNotes = () => {
             elements.notesContainer.innerHTML = "";
             if (notes.length === 0) {
@@ -71,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
             elements.addNewNoteBtn.classList.remove("hidden");
         };
 
-        // notes section
         const handleDeleteNoteClick = e => {
             noteToDeleteIndex = parseInt(e.target.closest("a").dataset.index);
             elements.deleteDialog.classList.remove("hidden");
@@ -82,17 +80,15 @@ document.addEventListener("DOMContentLoaded", () => {
             if (noteToDeleteIndex !== null) {
                 notes.splice(noteToDeleteIndex, 1);
                 noteToDeleteIndex = null;
-                elements.deleteDialog.classList.add("hidden");
-                elements.overlay.classList.add("hidden");
-                elements.searchInput.classList.remove("hidden");
+                hideDeleteDialog();
+                elements.searchInput.disabled = false;
                 renderNotes();
             }
         };
 
         const handleCancelDelete = () => {
             noteToDeleteIndex = null;
-            elements.deleteDialog.classList.add("hidden");
-            elements.overlay.classList.add("hidden");
+            hideDeleteDialog();
         };
 
         const handleAddNewNote = () => {
@@ -101,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
             elements.notesContainer.insertBefore(elements.noteFormContainer, elements.notesContainer.firstChild);
             elements.noteFormContainer.classList.remove("hidden");
             elements.addNewNoteBtn.classList.add("hidden");
-            document.querySelectorAll(".note-card__edit-btn").forEach((btn) => btn.classList.add('hidden'));
+            hideAllEditButtons();
             noteToEditIndex = null;
             elements.saveNoteBtn.textContent = "Add";
             document.querySelector(".note-form__card-title div").textContent = "Add new note";
@@ -125,64 +121,39 @@ document.addEventListener("DOMContentLoaded", () => {
             document.querySelector(".note-form__card-title div").textContent = "Modify note";
 
             noteCard.style.display = "none";
-            document.querySelectorAll(".note-card__edit-btn").forEach((btn, index) => {
-                if (index !== noteToEditIndex) {
-                    btn.classList.add('hidden');
-                }
-            });
+            hideOtherEditButtons();
         };
 
         const handleSaveNewNote = () => {
             const title = elements.noteTitleInput.value.trim();
             const content = elements.noteContentInput.value.trim();
 
-            if (title && content) {
-                const newNote = {
-                    title,
-                    content,
-                    date: new Date().toLocaleDateString()
-                };
+            if (!title || !content) return;
 
-                if (noteToEditIndex !== null) {
-                    notes[noteToEditIndex] = newNote;
-                    noteToEditIndex = null;
-                } else {
-                    notes.unshift(newNote);
-                }
-
-                elements.noteTitleInput.value = "";
-                elements.noteContentInput.value = "";
-                elements.noteFormContainer.classList.add("hidden");
-                elements.addNewNoteBtn.classList.remove("hidden");
-                document.querySelectorAll(".note-card__edit-btn").forEach(btn => btn.classList.remove('hidden'));
-                elements.searchInput.disabled = false;
-                elements.addNewNoteBtn.disabled = false;
-                renderNotes();
+            const newNote = { title, content, date: new Date().toLocaleDateString() };
+            if (noteToEditIndex !== null) {
+                notes[noteToEditIndex] = newNote;
+                noteToEditIndex = null;
+            } else {
+                notes.unshift(newNote);
             }
+
+            resetNoteForm();
+            renderNotes();
         };
 
         const handleCancelNewNote = () => {
             elements.searchInput.disabled = false;
             elements.addNewNoteBtn.disabled = false;
-            elements.noteTitleInput.value = "";
-            elements.noteContentInput.value = "";
-            elements.noteFormContainer.classList.add("hidden");
-            elements.addNewNoteBtn.classList.remove("hidden");
-
+            resetNoteForm();
             if (noteToEditIndex !== null) {
                 const noteCard = document.querySelectorAll(".note-card")[noteToEditIndex];
                 noteCard.style.display = "flex";
                 noteToEditIndex = null;
             }
-
-            document.querySelectorAll(".note-card__edit-btn").forEach(btn => btn.classList.remove('hidden'));
-
-            if (notes.length === 0) {
-                showEmptyState();
-            }
+            showOrHideEmptyState();
         };
 
-        // search section
         const handleSearchNotes = e => {
             const searchTerm = e.target.value.toLowerCase();
             const noteCards = document.querySelectorAll(".note-card");
@@ -192,21 +163,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 noteCard.style.display = title.includes(searchTerm) ? "flex" : "none";
             });
 
-            const visibleNotes = Array.from(noteCards).some(noteCard => noteCard.style.display !== "none");
-            !visibleNotes ? showEmptyState() : hideEmptyState();
+            showOrHideEmptyState();
         };
 
-        // init section
         const addEventListeners = () => {
-            document.querySelectorAll(".note-card__delete-btn").forEach(element => 
-                element.addEventListener("click", handleDeleteNoteClick)
-            );
-            document.querySelectorAll(".note-card__edit-btn").forEach(element => 
-                element.addEventListener("click", handleEditNoteClick)
-            );
-        };
-
-        const init = () => {
             elements.addNewNoteBtn.addEventListener("click", handleAddNewNote);
             elements.addNewNoteEmptyState.addEventListener("click", handleAddNewNote);
             elements.saveNoteBtn.addEventListener("click", handleSaveNewNote);
@@ -214,6 +174,48 @@ document.addEventListener("DOMContentLoaded", () => {
             elements.searchInput.addEventListener("input", handleSearchNotes);
             elements.confirmDeleteBtn.addEventListener("click", handleDeleteNote);
             elements.cancelDeleteBtn.addEventListener("click", handleCancelDelete);
+            document.querySelectorAll(".note-card__delete-btn").forEach(element =>
+                element.addEventListener("click", handleDeleteNoteClick)
+            );
+            document.querySelectorAll(".note-card__edit-btn").forEach(element =>
+                element.addEventListener("click", handleEditNoteClick)
+            );
+        };
+
+        // clean methods
+
+        const resetNoteForm = () => {
+            elements.noteTitleInput.value = "";
+            elements.noteContentInput.value = "";
+            elements.noteFormContainer.classList.add("hidden");
+            elements.addNewNoteBtn.classList.remove("hidden");
+            elements.searchInput.disabled = false;
+            document.querySelectorAll(".note-card__edit-btn").forEach(btn => btn.classList.remove('hidden'));
+        };
+
+        const hideAllEditButtons = () => {
+            document.querySelectorAll(".note-card__edit-btn").forEach(btn => btn.classList.add('hidden'));
+        };
+
+        const hideOtherEditButtons = () => {
+            document.querySelectorAll(".note-card__edit-btn").forEach((btn, index) => {
+                if (index !== noteToEditIndex) {
+                    btn.classList.add('hidden');
+                }
+            });
+        };
+
+        const showOrHideEmptyState = () => {
+            const visibleNotes = Array.from(document.querySelectorAll(".note-card")).some(noteCard => noteCard.style.display !== "none");
+            visibleNotes ? hideEmptyState() : showEmptyState();
+        };
+
+        const hideDeleteDialog = () => {
+            elements.deleteDialog.classList.add("hidden");
+            elements.overlay.classList.add("hidden");
+        };
+
+        const init = () => {
             renderNotes();
         };
 
