@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const saveNoteBtn = document.getElementById("save-note");
         const cancelNoteBtn = document.getElementById("cancel-note");
         const addNewNoteEmptyState = document.getElementById("add-note-empty-state");
+        const overlay = document.getElementById("overlay");
 
         let notes = [
             {
@@ -89,6 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const handleDeleteNoteClick = (e) => {
             noteToDeleteIndex = parseInt(e.target.closest("a").dataset.index);
             deleteDialog.classList.remove("hidden");
+            overlay.classList.remove("hidden");
         };
 
         const handleDeleteNote = () => {
@@ -96,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 notes.splice(noteToDeleteIndex, 1);
                 noteToDeleteIndex = null;
                 deleteDialog.classList.add("hidden");
+                overlay.classList.add("hidden");
                 renderNotes();
             }
         };
@@ -103,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const handleCancelDelete = () => {
             noteToDeleteIndex = null;
             deleteDialog.classList.add("hidden");
+            overlay.classList.add("hidden");
         };
 
         const handleAddNewNote = () => {
