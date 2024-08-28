@@ -11,7 +11,6 @@ body {
   font-family: "Inter", sans-serif;
   background-color: #f5f5f5;
   margin: 10vh;
-  padding: 0;
 }
 
 main {
@@ -25,7 +24,6 @@ main {
 .app {
   max-width: 376px;
   margin: 0 auto;
-  padding: 20px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -37,6 +35,8 @@ main {
   text-align: left;
   display: flex;
   align-items: center;
+  margin-left: 10px;
+  padding-top: 20px;
 }
 
 .search-box {
@@ -115,25 +115,52 @@ main {
 }
 
 .note-form {
-  padding: 10px;
   margin: 0px 4px 10px 4px;
   border-radius: 8px;
   background-color: #ffffff;
   box-shadow: 2px 2px 2px -2px rgba(0, 0, 0, 0.1);
+  display: flex;
   flex-direction: column;
-  gap: 12px;
+}
+.note-form.hidden {
+  display: none;
+}
+.note-form__card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
 }
 .note-form__title, .note-form__content {
-  width: 100%;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 14px;
-  color: #333333;
+  background-color: #EEEFF0;
+  margin-top: 15px;
+}
+.note-form__title:focus-visible, .note-form__content:focus-visible {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+}
+.note-form__title::placeholder {
+  color: black;
 }
 .note-form__content {
   height: 210px;
   max-height: 210px;
+}
+.note-form__content::placeholder {
+  color: #5B5C5E;
+}
+.note-form__add {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  top: -60px;
+  right: 15px;
 }
 .note-form .button--add {
   background-color: #6B3C9B;
@@ -142,7 +169,10 @@ main {
   border-radius: 12px;
   border: none;
   cursor: pointer;
-  justify-content: flex-end;
+  width: 64px;
+  height: 40px;
+  font-family: Inter, sans-serif;
+  font-weight: 500;
 }
 .note-form .button--cancel {
   background-color: white;
@@ -151,7 +181,8 @@ main {
   border-radius: 4px;
   border: none;
   cursor: pointer;
-  justify-content: flex-end;
+  font-weight: 400;
+  font-family: Inter, sans-serif;
 }
 
 .dialog {
@@ -179,6 +210,7 @@ main {
   vertical-align: middle;
   width: 30px;
   height: 30px;
+  margin-right: 10px;
 }
 .icon--small {
   width: 18px;

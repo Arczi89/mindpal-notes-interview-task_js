@@ -65,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         const handleDeleteNoteClick = (e) => {
+            console.log(e);
             noteToDeleteIndex = parseInt(e.target.closest("a").dataset.index);
             deleteModal.classList.remove("hidden");
         };
