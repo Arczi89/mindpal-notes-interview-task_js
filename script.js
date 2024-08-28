@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let noteToDeleteIndex = null;
         let noteToEditIndex = null;
 
+        // render section
         const renderNotes = () => {
             elements.notesContainer.innerHTML = "";
             if (notes.length === 0) {
@@ -70,15 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
             elements.addNewNoteBtn.classList.remove("hidden");
         };
 
-        const addEventListeners = () => {
-            document.querySelectorAll(".note-card__delete-btn").forEach(element => 
-                element.addEventListener("click", handleDeleteNoteClick)
-            );
-            document.querySelectorAll(".note-card__edit-btn").forEach(element => 
-                element.addEventListener("click", handleEditNoteClick)
-            );
-        };
-
+        // notes section
         const handleDeleteNoteClick = e => {
             noteToDeleteIndex = parseInt(e.target.closest("a").dataset.index);
             elements.deleteDialog.classList.remove("hidden");
@@ -189,6 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
 
+        // search section
         const handleSearchNotes = e => {
             const searchTerm = e.target.value.toLowerCase();
             const noteCards = document.querySelectorAll(".note-card");
@@ -200,7 +194,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const visibleNotes = Array.from(noteCards).some(noteCard => noteCard.style.display !== "none");
             !visibleNotes ? showEmptyState() : hideEmptyState();
-           
+        };
+
+        // init section
+        const addEventListeners = () => {
+            document.querySelectorAll(".note-card__delete-btn").forEach(element => 
+                element.addEventListener("click", handleDeleteNoteClick)
+            );
+            document.querySelectorAll(".note-card__edit-btn").forEach(element => 
+                element.addEventListener("click", handleEditNoteClick)
+            );
         };
 
         const init = () => {

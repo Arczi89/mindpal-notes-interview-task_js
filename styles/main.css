@@ -257,7 +257,7 @@ textarea {
   text-align: end;
 }
 .icon.hidden {
-  border: 1px red dotted;
+  display: none;
 }
 .icon--small {
   width: 18px;
