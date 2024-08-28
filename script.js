@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const notesContainer = document.getElementById("notes-container");
         const addNewNoteBtn = document.getElementById("add-new-note");
         const searchInput = document.getElementById("search-notes");
-        const deleteModal = document.getElementById("delete-modal");
+        const deleteDialog = document.getElementById("delete-dialog");
         const confirmDeleteBtn = document.getElementById("confirm-delete");
         const cancelDeleteBtn = document.getElementById("cancel-delete");
         const noteFormContainer = document.getElementById("note-form-container");
@@ -71,21 +71,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const handleDeleteNoteClick = (e) => {
             noteToDeleteIndex = parseInt(e.target.closest("a").dataset.index);
-            deleteModal.classList.remove("hidden");
+            deleteDialog.classList.remove("hidden");
         };
 
         const handleDeleteNote = () => {
             if (noteToDeleteIndex !== null) {
                 notes.splice(noteToDeleteIndex, 1);
                 noteToDeleteIndex = null;
-                deleteModal.classList.add("hidden");
+                deleteDialog.classList.add("hidden");
                 renderNotes();
             }
         };
 
         const handleCancelDelete = () => {
             noteToDeleteIndex = null;
-            deleteModal.classList.add("hidden");
+            deleteDialog.classList.add("hidden");
         };
 
         const handleAddNewNote = () => {
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
             noteCard.parentNode.insertBefore(noteFormContainer, noteCard.nextSibling);
 
             noteFormContainer.classList.remove("hidden");
-            saveNoteBtn.scrollIntoView({ behavior: "smooth" });
+            saveNoteBtn.scrollIntoView({ behavior: "smooth", block: "start" });
             saveNoteBtn.textContent = "Save";
             document.querySelector(".note-form__card-title div").textContent = "Modify note";
 

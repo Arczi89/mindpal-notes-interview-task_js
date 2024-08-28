@@ -198,18 +198,54 @@ textarea {
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: #ffffff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 20px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  max-width: 400px;
+  width: 100%;
+}
+.dialog__title {
+  font-weight: 500;
+  font-size: 20px;
+  margin-bottom: 20px;
+  text-align: center;
 }
 .dialog__message {
   font-size: 16px;
+  color: #333333;
   margin-bottom: 20px;
+  text-align: center;
 }
 .dialog__actions {
   display: flex;
   justify-content: space-between;
+  margin-top: 20px;
+}
+.dialog__button {
+  width: 140px;
+  height: 40px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  font-family: Inter, sans-serif;
+}
+.dialog__button--cancel {
+  background-color: white;
+  color: #000;
+  border: 1px solid #BCBCBD;
+}
+.dialog__button--delete {
+  background-color: #6B3C9B;
+  color: white;
+  border: none;
+}
+.dialog__button--cancel:hover {
+  background-color: #f0f0f0;
+}
+.dialog__button--delete:hover {
+  background-color: #552c7a;
 }
 
 .icon {
