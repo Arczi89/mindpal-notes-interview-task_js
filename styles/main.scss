@@ -20,6 +20,10 @@ main {
     padding: 0 16px;
 }
 
+textarea {
+    resize: none;
+}
+
 .hidden {
     display: none;
 }

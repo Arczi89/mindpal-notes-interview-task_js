@@ -65,7 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         const handleDeleteNoteClick = (e) => {
-            console.log(e);
             noteToDeleteIndex = parseInt(e.target.closest("a").dataset.index);
             deleteModal.classList.remove("hidden");
         };
@@ -86,6 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const handleAddNewNote = () => {
             noteFormContainer.classList.remove("hidden");
+            addNewNoteBtn.classList.add("hidden");
         };
 
         const handleSaveNewNote = () => {
@@ -103,6 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 noteTitleInput.value = "";
                 noteContentInput.value = "";
                 noteFormContainer.classList.add("hidden");
+                addNewNoteBtn.classList.remove("hidden");
                 renderNotes();
             }
         };
@@ -111,6 +112,7 @@ document.addEventListener("DOMContentLoaded", () => {
             noteTitleInput.value = "";
             noteContentInput.value = "";
             noteFormContainer.classList.add("hidden");
+            addNewNoteBtn.classList.remove("hidden");
         };
 
         const handleSearchNotes = (e) => {
