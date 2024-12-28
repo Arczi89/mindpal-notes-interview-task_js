@@ -11,7 +11,7 @@
     "start": "npm run build-css && npx http-server -p 8000"
   },
   "keywords": [],
-  "author": "",
+  "author": "Artur Szwagrzak",
   "license": "ISC",
   "devDependencies": {
     "@eslint/js": "^9.9.1",
